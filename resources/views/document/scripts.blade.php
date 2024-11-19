@@ -78,42 +78,42 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
 
 
 // Keyboard layout
-const rows = [
-    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-    ['Space', 'Backspace']
-];
+// const rows = [
+//     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+//     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+//     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+//     ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+//     ['Space', 'Backspace']
+// ];
 
-// Generate keyboard keys
-rows.forEach(row => {
-    const rowDiv = $('<div>').addClass('d-flex justify-content-center mb-2');
-    row.forEach(key => {
-        const button = $('<button>')
-            .addClass('btn btn-secondary keyboard-key')
-            .text(key === 'Space' ? '␣' : key)
-            .data('key', key)
-            .appendTo(rowDiv);
-    });
-    $('#keyboard').append(rowDiv);
-});
+// // Generate keyboard keys
+// rows.forEach(row => {
+//     const rowDiv = $('<div>').addClass('d-flex justify-content-center mb-2');
+//     row.forEach(key => {
+//         const button = $('<button>')
+//             .addClass('btn btn-secondary keyboard-key')
+//             .text(key === 'Space' ? '␣' : key)
+//             .data('key', key)
+//             .appendTo(rowDiv);
+//     });
+//     $('#keyboard').append(rowDiv);
+// });
 
-// Keyboard interaction
-$('#keyboard').on('click', '.keyboard-key', function() {
-    const key = $(this).data('key');
-    const output = $('#output');
-    let currentText = output.text();
+// // Keyboard interaction
+// $('#keyboard').on('click', '.keyboard-key', function() {
+//     const key = $(this).data('key');
+//     const output = $('#output');
+//     let currentText = output.text();
 
-    if (key === 'Backspace') {
-        // Remove last character
-        output.text(currentText.slice(0, -1));
-    } else if (key === 'Space') {
-        // Add a space
-        output.text(currentText + ' ');
-    } else {
-        // Add clicked key
-        output.text(currentText + key);
-    }
-});
+//     if (key === 'Backspace') {
+//         // Remove last character
+//         output.text(currentText.slice(0, -1));
+//     } else if (key === 'Space') {
+//         // Add a space
+//         output.text(currentText + ' ');
+//     } else {
+//         // Add clicked key
+//         output.text(currentText + key);
+//     }
+// });
 </script>

@@ -63,6 +63,10 @@
                             <input type="number" class="form-control border border-success" id="age" name="age"
                                 placeholder="Enter your age" required>
                         </div>
+
+                        <div id="keyboard" class="d-flex flex-wrap justify-content-center">
+                            <!-- Keys will be dynamically added here -->
+                        </div>
                         <button type="submit" class="btn btn-success w-100">Start</button>
                     </form>
                 </div>
@@ -74,9 +78,7 @@
         <div class="container mt-4">
             <h2 class="text-center">Touchscreen Keyboard</h2>
             <div id="output" class="mb-3"></div>
-            <div id="keyboard" class="d-flex flex-wrap justify-content-center">
-                <!-- Keys will be dynamically added here -->
-            </div>
+
         </div>
     </div>
 

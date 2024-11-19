@@ -22,6 +22,12 @@ Route::group([
 
     // Route to show player input page (localized)
     Route::get('/player-input', [PlayerController::class, 'showHighestJump'])->name('playerInput');
+
+    Route::prefix('api')->group(function () {
+        Route::get('/beestje', [AnimalController::class, 'animalByHeight'])->name('animalByHeight');
+        Route::get('/spelers', [PlayerController::class, 'index'])->name('players');
+        Route::post('/speler', [PlayerController::class, 'store'])->name('storePlayer');
+    });
 });
 
 
