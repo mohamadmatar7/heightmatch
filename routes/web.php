@@ -21,7 +21,7 @@ Route::group([
     });
 
     // Route to show player input page (localized)
-    Route::get('/player-input', [PlayerController::class, 'showHighestJump']);
+    Route::get('/player-input', [PlayerController::class, 'showHighestJump'])->name('playerInput');
 });
 
 
