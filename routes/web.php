@@ -17,4 +17,4 @@ Route::get('/original', function () {
     return view('interfaceOriginal');
 });
 
-Route::get('/', [PlayerController::class, 'showHighestJump']);
+Route::get('/player-input', [PlayerController::class, 'showHighestJump']);

@@ -24,7 +24,7 @@ class PlayerController extends Controller
 
         $player = $this->highestJump();
 
-        return view('interface', compact('player'));
+        return view('player-input', compact('player'));
     }
 
     // public function store(Request $request)

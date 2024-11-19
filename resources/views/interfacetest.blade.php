@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- Title -->
-                    <h1 class="text-center text-success mb-4">{{ config('app.name', 'Animal Insights') }}</h1>
+                    <h1 class="text-center text-success mb-4">{{ config('app.name', 'HeightMatch') }}</h1>
 
                     <!-- Info of the player with heighst jump -->
                     <div class="alert alert-warning">
@@ -68,11 +68,25 @@
                 </div>
             </div>
         </div>
+
+
+
+        <div class="container mt-4">
+            <h2 class="text-center">Touchscreen Keyboard</h2>
+            <div id="output" class="mb-3"></div>
+            <div id="keyboard" class="d-flex flex-wrap justify-content-center">
+                <!-- Keys will be dynamically added here -->
+            </div>
+        </div>
     </div>
+
+
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
     const hostIP = "192.168.0.119";
@@ -143,6 +157,49 @@
                 console.error('Error:', error);
                 alert("There was an error saving the player.");
             });
+    });
+
+
+
+
+    // Keyboard layout
+    const rows = [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+        ['Space', 'Backspace']
+    ];
+
+    // Generate keyboard keys
+    rows.forEach(row => {
+        const rowDiv = $('<div>').addClass('d-flex justify-content-center mb-2');
+        row.forEach(key => {
+            const button = $('<button>')
+                .addClass('btn btn-secondary keyboard-key')
+                .text(key === 'Space' ? '␣' : key)
+                .data('key', key)
+                .appendTo(rowDiv);
+        });
+        $('#keyboard').append(rowDiv);
+    });
+
+    // Keyboard interaction
+    $('#keyboard').on('click', '.keyboard-key', function() {
+        const key = $(this).data('key');
+        const output = $('#output');
+        let currentText = output.text();
+
+        if (key === 'Backspace') {
+            // Remove last character
+            output.text(currentText.slice(0, -1));
+        } else if (key === 'Space') {
+            // Add a space
+            output.text(currentText + ' ');
+        } else {
+            // Add clicked key
+            output.text(currentText + key);
+        }
     });
     </script>
 </body>
