@@ -1,6 +1,6 @@
 <x-main-layout :background="'background'">
     <div class="container py-5 d-flex flex-column align-items-center justify-content-center rounded shadow"
-        style="background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16x);">
+        style="background-color: rgba(255, 255, 255, 0.7);">
         <!-- Language Selector Section -->
         <div class=" text-center mb-5">
             <h1 class="mb-4 text-success display-4">{{ __('messages.Choose Your Language') }}</h1>

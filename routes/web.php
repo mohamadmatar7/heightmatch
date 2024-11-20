@@ -16,15 +16,17 @@ Route::group([
     });
 
     // Route to display the original interface page (localized)
-    Route::get('/original', function () {
-        return view('interfaceOriginal');
+    Route::get('/result', function () {
+        return view('jump-result');
     });
 
     // Route to show player input page (localized)
     Route::get('/player-input', [PlayerController::class, 'showHighestJump'])->name('playerInput');
+    
 
     Route::prefix('api')->group(function () {
         Route::get('/beestje', [AnimalController::class, 'animalByHeight'])->name('animalByHeight');
+        Route::post('/update-player-jump', [PlayerController::class, 'updateJump']);
         Route::get('/spelers', [PlayerController::class, 'index'])->name('players');
         Route::post('/speler', [PlayerController::class, 'store'])->name('storePlayer');
     });

@@ -1,6 +1,5 @@
 <section class="d-flex align-items-center justify-content-center">
-    <div class="container p-5 rounded shadow bg-white"
-        style="max-width: 700px; background-color: rgba(255, 255, 255, 0.9);">
+    <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);">
         <div class="text-center">
             <!-- Title -->
             <h1 class="text-success mb-4 display-4">@yield('title', config('app.name'))</h1>
@@ -27,8 +26,8 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="col-12 mt-3">
-                <button type="submit" class="btn btn-success w-100">{{ __('messages.start') }}</button>
+            <div class="col-12 mt-3 text-center">
+                <button type="submit" class="btn btn-success w-50 fs-4">{{ __('messages.start') }}</button>
             </div>
         </form>
 
@@ -44,10 +43,9 @@ function validateAge(input) {
 
 
 
-
 // Keyboard layout
 const rows = [
-    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'],
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
@@ -59,7 +57,7 @@ rows.forEach(row => {
     const rowDiv = $('<div>').addClass('d-flex justify-content-center mb-2');
     row.forEach(key => {
         const button = $('<button>')
-            .addClass('btn btn-outline-success mx-1 keyboard-key px-3')
+            .addClass('btn btn-outline-success mx-1 keyboard-key px-4 py-2 fs-5')
             .text(key === 'Space' ? '␣' : key)
             .data('key', key)
             .appendTo(rowDiv);
@@ -96,8 +94,78 @@ $('#keyboard').on('click', '.keyboard-key', function(event) {
     }
 });
 
-// Prevent form submission when pressing "Enter" while focused on the inputs
-$('#nameForm').on('submit', function(event) {
-    event.preventDefault(); // Prevent automatic submission
+
+
+// Form submission
+const hostIP = "192.168.0.7";
+const port = 9001;
+
+// Connect to the MQTT server
+var client = mqtt.connect('ws://' + hostIP + ':' + port);
+
+// On successful connection, subscribe to topics
+client.on('connect', function() {
+    console.log("Connected to MQTT broker");
+    client.subscribe('startsensor', function(err) {
+        if (!err) {
+            console.log("Subscribed to startsensor");
+        }
+    });
+});
+// Handle form submission for player name
+document.querySelector('#nameForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the form from submitting normally
+
+    const name = document.querySelector('#name').value;
+    const age = document.querySelector('#age').value;
+
+    // Send player name to the backend via fetch API
+    fetch("{{ url('api/speler') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    'content')
+            },
+            body: JSON.stringify({
+                name: name,
+                age: age,
+                jump: 0
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(data);
+                client.publish('startsensor', 'start');
+                console.log("Published 'start' to 'startsensor'");
+                // wait for 4 seconds then redirect to the result
+
+                let countdownTime = 5;
+
+                // Start the countdown interval
+                const countdownInterval = setInterval(() => {
+                    console.log(`Redirecting in ${countdownTime} seconds...`);
+
+                    // Decrease the countdown time
+                    countdownTime--;
+
+                    // When countdown reaches zero, clear interval and redirect
+                    if (countdownTime < 0) {
+                        clearInterval(countdownInterval);
+                        console.log("Redirecting now...");
+                        window.location.href = `/result?player_id=${data.player.id}`;
+                        // "{{ url('result') }}"; // Adjust the URL as needed
+                    }
+                }, 1000);
+
+            } else {
+                alert("Failed to save player.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("There was an error saving the player.");
+        });
 });
 </script>

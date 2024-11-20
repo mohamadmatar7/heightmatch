@@ -4,75 +4,75 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-const hostIP = "192.168.0.119";
-const port = 9001;
+// const hostIP = "192.168.0.7";
+// const port = 9001;
 
-// Connect to the MQTT server
-var client = mqtt.connect('ws://' + hostIP + ':' + port);
+// // Connect to the MQTT server
+// var client = mqtt.connect('ws://' + hostIP + ':' + port);
 
-// On successful connection, subscribe to topics
-client.on('connect', function() {
-    console.log("Connected to MQTT broker");
-    client.subscribe('startsensor', function(err) {
-        if (!err) {
-            console.log("Subscribed to startsensor");
-        }
-    });
-});
-// Handle form submission for player name
-document.querySelector('#nameForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+// // On successful connection, subscribe to topics
+// client.on('connect', function() {
+//     console.log("Connected to MQTT broker");
+//     client.subscribe('startsensor', function(err) {
+//         if (!err) {
+//             console.log("Subscribed to startsensor");
+//         }
+//     });
+// });
+// // Handle form submission for player name
+// document.querySelector('#nameForm').addEventListener('submit', function(e) {
+//     e.preventDefault(); // Prevent the form from submitting normally
 
-    const name = document.querySelector('#name').value;
+//     const name = document.querySelector('#name').value;
 
-    // Send player name to the backend via fetch API
-    fetch("{{ url('api/speler') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content')
-            },
-            body: JSON.stringify({
-                name: name,
-                jump: 0
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log(data);
-                client.publish('startsensor', 'start');
-                console.log("Published 'start' to 'startsensor'");
-                // wait for 4 seconds then redirect to the original
+//     // Send player name to the backend via fetch API
+//     fetch("{{ url('api/speler') }}", {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+//                     'content')
+//             },
+//             body: JSON.stringify({
+//                 name: name,
+//                 jump: 0
+//             })
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 console.log(data);
+//                 client.publish('startsensor', 'start');
+//                 console.log("Published 'start' to 'startsensor'");
+//                 // wait for 4 seconds then redirect to the original
 
-                let countdownTime = 5;
+//                 let countdownTime = 5;
 
-                // Start the countdown interval
-                const countdownInterval = setInterval(() => {
-                    console.log(`Redirecting in ${countdownTime} seconds...`);
+//                 // Start the countdown interval
+//                 const countdownInterval = setInterval(() => {
+//                     console.log(`Redirecting in ${countdownTime} seconds...`);
 
-                    // Decrease the countdown time
-                    countdownTime--;
+//                     // Decrease the countdown time
+//                     countdownTime--;
 
-                    // When countdown reaches zero, clear interval and redirect
-                    if (countdownTime < 0) {
-                        clearInterval(countdownInterval);
-                        console.log("Redirecting now...");
-                        window.location.href =
-                            "{{ url('original') }}"; // Adjust the URL as needed
-                    }
-                }, 1000);
+//                     // When countdown reaches zero, clear interval and redirect
+//                     if (countdownTime < 0) {
+//                         clearInterval(countdownInterval);
+//                         console.log("Redirecting now...");
+//                         window.location.href =
+//                             "{{ url('original') }}"; // Adjust the URL as needed
+//                     }
+//                 }, 1000);
 
-            } else {
-                alert("Failed to save player.");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("There was an error saving the player.");
-        });
-});
+//             } else {
+//                 alert("Failed to save player.");
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             alert("There was an error saving the player.");
+//         });
+// });
 
 
 

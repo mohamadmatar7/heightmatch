@@ -56,4 +56,26 @@ class PlayerController extends Controller
             'player' => $player
         ]);
     }
+
+    // update player to get the highest jump from mqtt
+    public function updateJump(Request $request)
+    {
+        $request->validate([
+            'player_id' => 'required|exists:players,id',
+            'jump' => 'required|numeric|min:0',
+        ]);
+    
+        $player = Player::find($request->player_id);
+    
+        if (!$player) {
+            return response()->json(['success' => false, 'message' => 'Player not found'], 404);
+        }
+    
+        $player->jump = $request->jump;
+        $player->save();
+    
+        return response()->json(['success' => true, 'player' => $player]);
+    }
+
+    
 }

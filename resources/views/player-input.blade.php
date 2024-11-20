@@ -1,3 +1,3 @@
 <x-main-layout :background="'background'">
-    <x-background />
+    <x-player-form />
 </x-main-layout>
