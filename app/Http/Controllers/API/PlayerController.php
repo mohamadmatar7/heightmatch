@@ -27,13 +27,6 @@ class PlayerController extends Controller
         return view('player-input', compact('player'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     $record = new Player();
-    //     $record->name = $request->name;
-    //     $record->jump = $request->jump;
-    //     $record->save();
-    // }
     public function store(Request $request)
     {
         // Validate the incoming data
@@ -75,6 +68,16 @@ class PlayerController extends Controller
         $player->save();
     
         return response()->json(['success' => true, 'player' => $player]);
+    }
+
+    // get the highest 10 jumps in the last 24 hours
+    public function scoreboard()
+    {
+        $players = Player::where('created_at', '>=', now()->subWeek())
+            ->orderBy('jump', 'desc')
+            ->limit(10)
+            ->get();
+        return view('scoreboard', compact('players'));
     }
 
     

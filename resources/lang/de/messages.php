@@ -2,6 +2,14 @@
 
 return [
     'welcome to' => 'Willkommen bei',
+    'your' => 'Dein',
+    'jump height' => 'Sprunghöhe',
+    'leaderboard' => 'Bestenliste',
+    'loading' => 'Laden',
+    'type' => 'Typ',
+    'player' => 'Spieler',
+    'name' => 'Name',
+    'age' => 'Alter',
     'nickname_label' => 'Dein Spitzname',
     'nickname_placeholder' => 'Gib deinen Spitznamen ein',
     'age_label' => 'Dein Alter',

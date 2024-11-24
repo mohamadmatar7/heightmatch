@@ -2,6 +2,14 @@
 
 return [
     'welcome to' => 'Welkom bij',
+    'your' => 'Jouw',
+    'jump height' => 'Spronghoogte',
+    'leaderboard' => 'Scorebord',
+    'loading' => 'Laden',
+    'type' => 'Type',
+    'player' => 'Speler',
+    'name' => 'Naam',
+    'age' => 'Leeftijd',
     'nickname_label' => 'Je bijnaam',
     'nickname_placeholder' => 'Voer je bijnaam in',
     'age_label' => 'Je leeftijd',

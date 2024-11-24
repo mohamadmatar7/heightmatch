@@ -29,6 +29,10 @@ Route::group([
         Route::post('/update-player-jump', [PlayerController::class, 'updateJump']);
         Route::get('/spelers', [PlayerController::class, 'index'])->name('players');
         Route::post('/speler', [PlayerController::class, 'store'])->name('storePlayer');
+        
+        // get the highest 10 jumps
+        Route::get('/scoreboard', [PlayerController::class, 'scoreboard'])->name('scoreboard');
+        
     });
 });
 

@@ -2,6 +2,14 @@
 
 return [
     'welcome to' => 'Bienvenue à',
+    'your' => 'Votre',
+    'jump height' => 'Hauteur de saut',
+    'leaderboard' => 'Classement',
+    'loading' => 'Chargement',
+    'type' => 'Type',
+    'player' => 'Joueur',
+    'name' => 'Nom',
+    'age' => 'Âge',
     'nickname_label' => 'Votre surnom',
     'nickname_placeholder' => 'Entrez votre surnom',
     'age_label' => 'Votre âge',

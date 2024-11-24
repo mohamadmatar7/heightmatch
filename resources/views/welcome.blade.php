@@ -1,5 +1,5 @@
 <x-main-layout :background="'background'">
-    <div class="container py-5 d-flex flex-column align-items-center justify-content-center rounded shadow"
+    <div class="container py-5 my-5 d-flex flex-column align-items-center justify-content-center rounded shadow"
         style="background-color: rgba(255, 255, 255, 0.7);">
         <!-- Language Selector Section -->
         <div class=" text-center mb-5">

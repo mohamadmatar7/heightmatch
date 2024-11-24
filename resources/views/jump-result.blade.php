@@ -1,3 +1,4 @@
+@section('title', 'Jump Result')
 <x-main-layout :background="'background'">
     <!-- Content Container -->
     <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);">
@@ -14,7 +15,8 @@
 
                 <!-- Display User Jump Height -->
                 <div id="user-jump-height" class="mb-4">
-                    <strong>Your Jump Height: <span id="jump-height-value">Loading...</span>
+                    <strong>{{ __('messages.your') }} {{ __('messages.jump height') }}: <span
+                            id="jump-height-value">{{ __('messages.loading') }}...</span>
                         cm</strong>
                 </div>
 
@@ -27,8 +29,9 @@
                             <h5 class="card-title" id="animal-name"></h5>
                             <p class="card-text" id="animal-description"></p>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Type:</strong> <span id="animal-type"></span></li>
-                                <li class="list-group-item"><strong>Jump Height:</strong> <span
+                                <li class="list-group-item"><strong>{{ __('messages.type') }}:</strong> <span
+                                        id="animal-type"></span></li>
+                                <li class="list-group-item"><strong>{{ __('messages.jump height') }}:</strong> <span
                                         id="animal-jump-height"></span> cm</li>
                             </ul>
                         </div>
