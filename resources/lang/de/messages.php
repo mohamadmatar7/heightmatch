@@ -1,13 +1,17 @@
 <?php
 
 return [
+    'attribute' => 'Attribut',
     'welcome to' => 'Willkommen bei',
     'your' => 'Dein',
     'jump height' => 'Sprunghöhe',
+    'jump!' => 'Springen!',
+    'jump height of' => 'Sprunghöhe von',
     'leaderboard' => 'Bestenliste',
     'loading' => 'Laden',
     'type' => 'Typ',
     'player' => 'Spieler',
+    'value' => 'Wert',
     'name' => 'Name',
     'age' => 'Alter',
     'nickname_label' => 'Dein Spitzname',

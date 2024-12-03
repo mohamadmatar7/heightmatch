@@ -1,49 +1,70 @@
 @section('title', 'Jump Result')
 <x-main-layout :background="'background'">
     <!-- Content Container -->
-    <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);">
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Title -->
-                <h1 class="text-center text-success mb-4">{{ config('app.name', 'Animal Insights') }}</h1>
+    <div class="container py-5 px-4 rounded shadow-lg"
+        style="background-color: rgba(255, 255, 255, 0.85); max-width: 700px;">
+        <!-- Title -->
+        <h1 class="text-center text-success mb-5">{{ config('app.name', 'Animal Insights') }}</h1>
 
-                <!-- Form (hidden) -->
-                <form action="" method="post" class="d-none">
-                    @csrf
-                    <input type="hidden" class="form-control border border-success" id="height" name="height" required>
-                </form>
+        <!-- User Jump Height -->
+        <div id="user-jump-height" class="text-center mb-4">
+            <strong class="fs-4">{{ __('messages.your') }} {{ __('messages.jump height') }}:</strong>
+            <div class="badge bg-success fs-4 px-3 py-2" id="jump-height-value">{{ __('messages.loading') }}...</div>
+        </div>
 
-                <!-- Display User Jump Height -->
-                <div id="user-jump-height" class="mb-4">
-                    <strong>{{ __('messages.your') }} {{ __('messages.jump height') }}: <span
-                            id="jump-height-value">{{ __('messages.loading') }}...</span>
-                        cm</strong>
+        <!-- Animal Data Section -->
+        <div id="animal-info" class="d-none">
+            <div class="d-flex flex-column gap-3">
+                <!-- Animal Image -->
+                <div class="text-center">
+                    <img src="" alt="Animal Image" id="animal-image" class="img-fluid rounded shadow-sm border"
+                        style="max-height: 300px; object-fit: cover; width: auto;">
                 </div>
 
-                <!-- Animal Data Section -->
-                <div id="animal-info" class="d-none">
-                    <div class="card">
-                        <img src="" alt="Animal Image" id="animal-image" class="card-img-top"
-                            style="max-height: 300px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title" id="animal-name"></h5>
-                            <p class="card-text" id="animal-description"></p>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>{{ __('messages.type') }}:</strong> <span
-                                        id="animal-type"></span></li>
-                                <li class="list-group-item"><strong>{{ __('messages.jump height') }}:</strong> <span
-                                        id="animal-jump-height"></span> cm</li>
-                            </ul>
-                        </div>
-                    </div>
+                <!-- Animal Details -->
+                <div class="text-center">
+                    <h5 class="text-success fw-bold" id="animal-name"></h5>
+                    <p class="text-muted" id="animal-description"></p>
                 </div>
 
-                <!-- Info Message Section -->
-                <p class="alert alert-info d-none" id="message">Animal information will appear here.</p>
+                <!-- Animal Attributes Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="table-success">
+                                <th scope="col">{{ __('messages.attribute') }}</th>
+                                <th scope="col">{{ __('messages.value') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>{{ __('messages.type') }}</strong></td>
+                                <td id="animal-type"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>{{ __('messages.jump height of') }} <span
+                                            data-name="animal-name"></span></strong>
+                                </td>
+                                <td><span id="animal-jump-height"></span> cm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+        <div class="text-center my-4">
+            <a href="{{ route('scoreboard') }}" class="btn btn-success w-50 fs-4">
+                {{ __('messages.leaderboard') }}
+            </a>
+        </div>
+
+
+        <!-- Info Message Section -->
+        <div id="message" class="alert alert-danger text-center mt-4 d-none"></div>
     </div>
 </x-main-layout>
+
 
 <script>
 // Function to extract query parameters
@@ -55,56 +76,35 @@ function getQueryParam(name) {
 // Get player ID from URL
 const playerId = getQueryParam('player_id');
 
-if (playerId) {
-    console.log('Player ID:', playerId);
-} else {
+if (!playerId) {
     alert('Player information is missing. Please start again.');
     window.location.href = '/';
 }
 
-// handle form submit
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const height = document.querySelector('#height').value;
-    fetch('/api/beestje?height=' + height)
-        .then(response => response.json())
-        .then(data => {
-            // Set the animal data
-            document.querySelector('#animal-name').textContent = data.name;
-            document.querySelector('#animal-type').textContent = data.type;
-            document.querySelector('#animal-jump-height').textContent = data.jump_height;
-            document.querySelector('#animal-description').textContent = data.description;
-            document.querySelector('#animal-image').src = data.image;
-
-            // Show the animal data section
-            document.querySelector('#animal-info').classList.remove('d-none');
-            document.querySelector('#message').classList.add('d-none');
-        })
-        .catch(error => {
-            console.error('Error fetching animal data:', error);
-        });
-});
-
 // MQTT Setup
-const hostIP = "192.168.0.7";
+const hostIP = "192.168.0.119";
 const port = 9001;
-var client = mqtt.connect('ws://' + hostIP + ':' + port);
+const client = mqtt.connect(`ws://${hostIP}:${port}`);
 
 client.on('connect', function() {
+    console.log('Connected to MQTT broker.');
     client.subscribe('animal/heightmatch', function(err) {
         if (!err) {
-            client.publish('connected', 'Hello mqtt');
+            console.log('Subscribed to topic: animal/heightmatch');
+        } else {
+            console.error('Failed to subscribe to topic:', err);
         }
     });
 });
 
 client.on('message', function(topic, message) {
-    // message is Buffer
+    // Message contains the height data
     const height = message.toString();
     console.log('Received height:', height);
 
-    // Update the jump height value on the page
-    document.querySelector('#jump-height-value').textContent = height;
+    // Update the displayed jump height
+    const jumpHeightDisplay = document.querySelector('#jump-height-value');
+    jumpHeightDisplay.textContent = height + ' cm';
 
     // Ensure the player ID exists
     if (!playerId) {
@@ -112,7 +112,7 @@ client.on('message', function(topic, message) {
         return;
     }
 
-    // Automatically update the player's jump in the database
+    // Update the player's jump height in the database
     fetch(`/api/update-player-jump`, {
             method: 'POST',
             headers: {
@@ -128,9 +128,30 @@ client.on('message', function(topic, message) {
         .then(data => {
             if (data.success) {
                 console.log('Player jump updated successfully:', data.player);
-                document.querySelector('#message').classList.remove('d-none');
-                document.querySelector('#message').textContent =
-                    `Jump height updated to ${height} for player ${data.player.name}!`;
+
+                // Fetch animal data based on the received height
+                fetch(`/api/beestje?height=${height}`)
+                    .then(response => response.json())
+                    .then(animalData => {
+                        // Update animal info on the page
+                        document.querySelector('#animal-info').classList.remove('d-none');
+                        document.querySelector('#animal-name').textContent = animalData.name;
+                        document.querySelector('#animal-description').textContent = animalData
+                            .description;
+                        document.querySelector('#animal-type').textContent = animalData.type;
+                        document.querySelector('#animal-jump-height').textContent = animalData
+                            .jump_height;
+                        document.querySelector('#animal-image').src = animalData.image_url;
+
+                        // Hide the info message
+                        document.querySelector('#message').classList.add('d-none');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching animal data:', error);
+                        const messageElement = document.querySelector('#message');
+                        messageElement.classList.remove('d-none');
+                        messageElement.textContent = 'Error fetching animal data.';
+                    });
             } else {
                 console.error('Failed to update player jump:', data.message);
             }
@@ -138,13 +159,9 @@ client.on('message', function(topic, message) {
         .catch(error => {
             console.error('Error updating player jump:', error);
         });
+});
 
-    // Optionally auto-submit the height to fetch animal data
-    document.querySelector('#height').value = height;
-    setTimeout(() => {
-        document.querySelector('form').dispatchEvent(new Event('submit'));
-    }, 1000);
-
-    client.end();
+client.on('error', function(err) {
+    console.error('MQTT Connection Error:', err);
 });
 </script>

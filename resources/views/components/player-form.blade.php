@@ -1,6 +1,6 @@
 <section class="d-flex align-items-center justify-content-center">
-    <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);">
-        <div class="text-center">
+    <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);" id="content">
+        <div class=" text-center">
             <!-- Title -->
             <h1 class="text-success mb-4 display-4">@yield('title', config('app.name'))</h1>
         </div>
@@ -30,8 +30,8 @@
                 <button type="submit" class="btn btn-success w-50 fs-4">{{ __('messages.start') }}</button>
             </div>
         </form>
-
     </div>
+    <div class="countdown-overlay text-success display-1 fw-semibold d-none" id="countdown-overlay"></div>
 </section>
 
 <script>
@@ -57,7 +57,7 @@ rows.forEach(row => {
     const rowDiv = $('<div>').addClass('d-flex justify-content-center mb-2');
     row.forEach(key => {
         const button = $('<button>')
-            .addClass('btn btn-outline-success mx-1 keyboard-key px-4 py-2 fs-5')
+            .addClass('btn btn-outline-success mx-2 keyboard-key px-4 py-3 fs-5')
             .text(key === 'Space' ? '␣' : key)
             .data('key', key)
             .appendTo(rowDiv);
@@ -97,7 +97,7 @@ $('#keyboard').on('click', '.keyboard-key', function(event) {
 
 
 // Form submission
-const hostIP = "192.168.0.7";
+const hostIP = "192.168.0.119";
 const port = 9001;
 
 // Connect to the MQTT server
@@ -112,9 +112,12 @@ client.on('connect', function() {
         }
     });
 });
+
+
+
 // Handle form submission for player name
 document.querySelector('#nameForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+    e.preventDefault();
 
     const name = document.querySelector('#name').value;
     const age = document.querySelector('#age').value;
@@ -124,8 +127,7 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                    'content')
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
                 name: name,
@@ -139,26 +141,36 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
                 console.log(data);
                 client.publish('startsensor', 'start');
                 console.log("Published 'start' to 'startsensor'");
-                // wait for 4 seconds then redirect to the result
 
-                let countdownTime = 5;
+                // Hide the form
+                const content = document.querySelector('#content');
+                content.classList.add('d-none');
 
-                // Start the countdown interval
+                // Show the countdown overlay
+                const overlay = document.querySelector('#countdown-overlay');
+                overlay.classList.remove('d-none');
+                const jumpText = @json(__('messages.jump!'));
+
+
+                let countdownTime = 3;
+                overlay.textContent = countdownTime;
+
                 const countdownInterval = setInterval(() => {
-                    console.log(`Redirecting in ${countdownTime} seconds...`);
-
-                    // Decrease the countdown time
                     countdownTime--;
 
-                    // When countdown reaches zero, clear interval and redirect
-                    if (countdownTime < 0) {
+                    if (countdownTime > 0) {
+                        overlay.textContent = countdownTime;
+                    } else {
                         clearInterval(countdownInterval);
-                        console.log("Redirecting now...");
-                        window.location.href = `/result?player_id=${data.player.id}`;
-                        // "{{ url('result') }}"; // Adjust the URL as needed
+                        overlay.textContent = jumpText;
+
+                        setTimeout(() => {
+                            // Redirect after "Jump!" is displayed
+                            window.location.href =
+                                `/result?player_id=${data.player.id}`;
+                        }, 4000);
                     }
                 }, 1000);
-
             } else {
                 alert("Failed to save player.");
             }

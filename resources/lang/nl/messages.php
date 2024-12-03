@@ -1,13 +1,17 @@
 <?php
 
 return [
+    'attribute' => 'Attribuut',
     'welcome to' => 'Welkom bij',
     'your' => 'Jouw',
     'jump height' => 'Spronghoogte',
+    'jump!' => 'Spring!',
+    'jump height of' => 'Spronghoogte van',
     'leaderboard' => 'Scorebord',
     'loading' => 'Laden',
     'type' => 'Type',
     'player' => 'Speler',
+    'value' => 'Waarde',
     'name' => 'Naam',
     'age' => 'Leeftijd',
     'nickname_label' => 'Je bijnaam',

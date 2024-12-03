@@ -1,13 +1,17 @@
 <?php
 
 return [
+    'attribute' => 'Attribute',
     'welcome to' => 'Welcome to',
     'your' => 'Your',
     'jump height' => 'Jump Height',
+    'jump!' => 'Jump!',
+    'jump height of' => 'Jump Height of',
     'leaderboard' => 'Leaderboard',
     'loading' => 'Loading',
     'type' => 'Type',
     'player' => 'Player',
+    'value' => 'Value',
     'name' => 'Name',
     'age' => 'Age',
     'nickname_label' => 'Your Nickname',
