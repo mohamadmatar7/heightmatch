@@ -71,13 +71,22 @@ class PlayerController extends Controller
     }
 
     // get the highest 10 jumps in the last 24 hours
-    public function scoreboard()
+    public function scoreboardToday()
     {
-        $players = Player::where('created_at', '>=', now()->subWeek())
+        $players = Player::where('created_at', '>=', now()->subDay())
             ->orderBy('jump', 'desc')
             ->limit(10)
             ->get();
-        return view('scoreboard', compact('players'));
+        return view('scoreboard.today', compact('players'));
+    }
+
+    // get the highest 10 jumps of all time
+    public function scoreboardAll()
+    {
+        $players = Player::orderBy('jump', 'desc')
+            ->limit(10)
+            ->get();
+        return view('scoreboard.all-time', compact('players'));
     }
 
     

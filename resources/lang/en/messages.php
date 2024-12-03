@@ -2,6 +2,9 @@
 
 return [
     'attribute' => 'Attribute',
+    'all_time' => 'All Time',
+    'height' => 'Height',
+    'today' => 'Today',
     'welcome to' => 'Welcome to',
     'your' => 'Your',
     'jump height' => 'Jump Height',

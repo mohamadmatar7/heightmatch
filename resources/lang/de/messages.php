@@ -2,6 +2,9 @@
 
 return [
     'attribute' => 'Attribut',
+    'all_time' => 'All Time',
+    'height' => 'Höhe',
+    'today' => 'Heute',
     'welcome to' => 'Willkommen bei',
     'your' => 'Dein',
     'jump height' => 'Sprunghöhe',

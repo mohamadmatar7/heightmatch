@@ -31,7 +31,9 @@ Route::group([
         Route::post('/speler', [PlayerController::class, 'store'])->name('storePlayer');
         
         // get the highest 10 jumps
-        Route::get('/scoreboard', [PlayerController::class, 'scoreboard'])->name('scoreboard');
+        Route::get('/scoreboard', [PlayerController::class, 'scoreboardAll'])->name('scoreboardAll');
+        // get the highest 10 jumps of today
+        Route::get('/scoreboard/today', [PlayerController::class, 'scoreboardToday'])->name('scoreboardToday');
         
     });
 });

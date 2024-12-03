@@ -6,6 +6,7 @@
         <!-- Title -->
         <h1 class="text-center text-success mb-5">{{ config('app.name', 'Animal Insights') }}</h1>
 
+
         <!-- User Jump Height -->
         <div id="user-jump-height" class="text-center mb-4">
             <strong class="fs-4">{{ __('messages.your') }} {{ __('messages.jump height') }}:</strong>
@@ -23,7 +24,7 @@
 
                 <!-- Animal Details -->
                 <div class="text-center">
-                    <h5 class="text-success fw-bold" id="animal-name"></h5>
+                    <h5 class="text-success fw-bold" data-animal-name="animal-name"></h5>
                     <p class="text-muted" id="animal-description"></p>
                 </div>
 
@@ -37,6 +38,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><strong>{{ __('messages.name') }}</strong></td>
+                                <td data-animal-name="animal-name"></td>
+                            </tr>
                             <tr>
                                 <td><strong>{{ __('messages.type') }}</strong></td>
                                 <td id="animal-type"></td>
@@ -54,7 +59,7 @@
         </div>
 
         <div class="text-center my-4">
-            <a href="{{ route('scoreboard') }}" class="btn btn-success w-50 fs-4">
+            <a href="{{ route('scoreboardToday') }}" class="btn btn-success w-50 fs-4">
                 {{ __('messages.leaderboard') }}
             </a>
         </div>
@@ -135,7 +140,10 @@ client.on('message', function(topic, message) {
                     .then(animalData => {
                         // Update animal info on the page
                         document.querySelector('#animal-info').classList.remove('d-none');
-                        document.querySelector('#animal-name').textContent = animalData.name;
+                        document.querySelectorAll('[data-animal-name="animal-name"]').forEach(
+                            element => {
+                                element.textContent = animalData.name;
+                            });
                         document.querySelector('#animal-description').textContent = animalData
                             .description;
                         document.querySelector('#animal-type').textContent = animalData.type;

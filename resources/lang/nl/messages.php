@@ -2,6 +2,9 @@
 
 return [
     'attribute' => 'Attribuut',
+    'all_time' => 'Aller tijden',
+    'height' => 'Hoogte',
+    'today' => 'Vandaag',
     'welcome to' => 'Welkom bij',
     'your' => 'Jouw',
     'jump height' => 'Spronghoogte',

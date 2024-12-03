@@ -31,7 +31,8 @@
             </div>
         </form>
     </div>
-    <div class="countdown-overlay text-success display-1 fw-semibold d-none" id="countdown-overlay"></div>
+    <div class="countdown-overlay text-success fw-semibold d-none" id="countdown-overlay" style="font-size: 13rem;">
+    </div>
 </section>
 
 <script>
@@ -168,9 +169,9 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
                             // Redirect after "Jump!" is displayed
                             window.location.href =
                                 `/result?player_id=${data.player.id}`;
-                        }, 4000);
+                        }, 3500);
                     }
-                }, 1000);
+                }, 1250);
             } else {
                 alert("Failed to save player.");
             }
