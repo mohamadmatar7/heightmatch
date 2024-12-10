@@ -3,7 +3,13 @@
 return [
     'attribute' => 'Attribut',
     'all_time' => 'All Time',
+    'post' => 'Beitrag',
+    'delete' => 'Löschen',
+    'no animals found' => 'Keine Tiere gefunden',
+    'action' => 'Aktion',
     'height' => 'Höhe',
+    'image' => 'Bild',
+    'description' => 'Beschreibung',
     'today' => 'Heute',
     'welcome to' => 'Willkommen bei',
     'your' => 'Dein',

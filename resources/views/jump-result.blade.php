@@ -48,7 +48,7 @@
                             </tr>
                             <tr>
                                 <td><strong>{{ __('messages.jump height of') }} <span
-                                            data-name="animal-name"></span></strong>
+                                            data-animal-name="animal-name"></span></strong>
                                 </td>
                                 <td><span id="animal-jump-height"></span> cm</td>
                             </tr>

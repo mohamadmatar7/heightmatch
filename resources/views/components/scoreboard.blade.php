@@ -1,8 +1,8 @@
-@props(['players', 'route', 'text'])
+@props(['players', 'headerText', 'route', 'text'])
 <div class="container py-5 my-5 rounded shadow d-flex flex-column " style="background-color: rgba(255, 255, 255, 0.7);">
     <!-- Page Title -->
     <h1 class="text-center text-success display-4 mb-4">🏆
-        {{ $text }} {{ __('messages.leaderboard') }} 🏆</h1>
+        {{ $headerText }} {{ __('messages.leaderboard') }} 🏆</h1>
     <div>
         <a href="{{ $route }}" class="btn btn-success mb-2">
             {{ $text }}

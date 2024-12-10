@@ -22,10 +22,18 @@ Route::group([
 
     // Route to show player input page (localized)
     Route::get('/player-input', [PlayerController::class, 'showHighestJump'])->name('playerInput');
-    
+    // Show the animals
+    Route::get('/animals', [AnimalController::class, 'index'])->name('animals');
+    // create a new animal
+    Route::get('/create-animal', [AnimalController::class, 'create'])->name('createAnimal');
+    // store the animal
+    Route::post('/store-animal', [AnimalController::class, 'store'])->name('storeAnimal');
+    // delete the animal
+    Route::delete('/delete-animal/{animal}', [AnimalController::class, 'destroy'])->name('deleteAnimal');
 
     Route::prefix('api')->group(function () {
         Route::get('/beestje', [AnimalController::class, 'animalByHeight'])->name('animalByHeight');
+
         Route::post('/update-player-jump', [PlayerController::class, 'updateJump']);
         Route::get('/spelers', [PlayerController::class, 'index'])->name('players');
         Route::post('/speler', [PlayerController::class, 'store'])->name('storePlayer');
