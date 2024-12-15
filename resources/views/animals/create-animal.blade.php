@@ -13,7 +13,7 @@
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <!-- Animal Type -->
-            <div class="mb-3">
+            <div class=" mb-3">
                 <label for="type" class="form-label">{{ __('messages.type') }}</label>
                 <input type="text" class="form-control" id="type" name="type" required>
             </div>

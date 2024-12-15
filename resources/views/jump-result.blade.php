@@ -1,7 +1,7 @@
 @section('title', 'Jump Result')
 <x-main-layout :background="'background'">
     <!-- Content Container -->
-    <div class="container py-5 px-4 rounded shadow-lg"
+    <div class="container py-5 px-4 my-5 rounded shadow-lg"
         style="background-color: rgba(255, 255, 255, 0.85); max-width: 700px;">
         <!-- Title -->
         <h1 class="text-center text-success mb-5">{{ config('app.name', 'Animal Insights') }}</h1>
@@ -87,7 +87,7 @@ if (!playerId) {
 }
 
 // MQTT Setup
-const hostIP = "192.168.0.119";
+const hostIP = "192.168.0.7";
 const port = 9001;
 const client = mqtt.connect(`ws://${hostIP}:${port}`);
 
@@ -149,7 +149,7 @@ client.on('message', function(topic, message) {
                         document.querySelector('#animal-type').textContent = animalData.type;
                         document.querySelector('#animal-jump-height').textContent = animalData
                             .jump_height;
-                        document.querySelector('#animal-image').src = animalData.image_url;
+                        document.querySelector('#animal-image').src = animalData.image;
 
                         // Hide the info message
                         document.querySelector('#message').classList.add('d-none');

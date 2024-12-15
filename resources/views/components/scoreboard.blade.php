@@ -11,7 +11,7 @@
     <!-- Scoreboard Table -->
     <div class="table-responsive">
         <table class="table table-hover align-middle">
-            <thead class=" table-success">
+            <thead class="table-success">
                 <tr>
                     <th scope="col" class="text-center">#</th>
                     <th scope="col">{{ __('messages.player') }}</th>
@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($players as $index => $player)
+                @forelse($players as $index => $player)
                 <tr>
                     <!-- Ranking -->
                     <th scope="row" class="text-center">
@@ -44,7 +44,13 @@
                         <strong class="fs-5 text-success">{{ $player->jump }}</strong>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="4" class="text-center text-muted fs-5">
+                        {{ __('messages.no players found') }}
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

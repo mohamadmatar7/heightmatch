@@ -98,7 +98,7 @@ $('#keyboard').on('click', '.keyboard-key', function(event) {
 
 
 // Form submission
-const hostIP = "192.168.0.119";
+const hostIP = "192.168.0.7";
 const port = 9001;
 
 // Connect to the MQTT server

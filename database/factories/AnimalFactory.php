@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Animal; // Import the Animal model
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Animal>
  */
 class AnimalFactory extends Factory
 {
@@ -15,28 +16,28 @@ class AnimalFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {   
-        $types = ['mammal', 'bird', 'reptile', 'amphibian', 'fish', 'invertebrate'];
+    {
+        $slug = ['fox', 'dog', 'kangaroo', 'penguin', 'rabbit', 'snail', 'chicken'];
+        $types = ['mammal', 'bird', 'rodent'];
         $animals = [
-            'mammal' => ['cat', 'dog', 'elephant', 'giraffe', 'hippopotamus', 'kangaroo', 'koala', 'lion', 'panda', 'penguin', 'rabbit', 'red panda', 'sloth', 'tiger', 'wolf'],
-            'bird' => ['albatross', 'blue jay', 'cardinal', 'chicken', 'crow', 'duck', 'eagle', 'flamingo', 'goose', 'hawk', 'hummingbird', 'kiwi', 'ostrich', 'owl', 'parrot', 'peacock', 'pelican', 'penguin', 'pigeon', 'robin', 'sparrow', 'swan', 'turkey', 'vulture', 'woodpecker'],
-            'reptile' => ['alligator', 'anaconda', 'boa', 'chameleon', 'cobra', 'crocodile', 'gecko', 'iguana', 'komodo dragon', 'python', 'rattlesnake', 'sea turtle', 'snapping turtle', 'tortoise'],
-            'amphibian' => ['bullfrog', 'newt', 'salamander', 'toad'],
-            'fish' => ['bass', 'catfish', 'clownfish', 'goldfish', 'guppy', 'mackerel', 'salmon', 'shark', 'stingray', 'swordfish', 'trout', 'tuna'],
-            'invertebrate' => ['ant', 'bee', 'beetle', 'butterfly', 'caterpillar', 'centipede', 'cockroach', 'crab', 'dragonfly', 'earthworm', 'fly', 'grasshopper', 'jellyfish', 'ladybug', 'lobster', 'millipede', 'mosquito', 'octopus', 'scorpion', 'snail', 'spider', 'squid', 'tarantula', 'wasp']
+            'mammal' => ['fox', 'dog', 'kangaroo', 'penguin', 'rabbit', 'snail'],
+            'bird' => ['chicken'],
+            'rodent' => ['kangaroo'],
         ];
 
         $randomType = $this->faker->randomElement($types);
         $randomAnimal = $this->faker->randomElement($animals[$randomType]);
 
+        // Use Faker's unique modifier to ensure uniqueness for slug
+        $randomSlug = $this->faker->unique()->randomElement($slug);
+
         return [
+            'slug' => $randomSlug,
             'name' => $randomAnimal,
             'type' => $randomType,
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
-            'jump_height' => $this->faker->numberBetween(0, 3000),
+            'jump_height' => $this->faker->numberBetween(0, 150),
         ];
     }
-
-
 }

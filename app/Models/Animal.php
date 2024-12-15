@@ -10,6 +10,7 @@ class Animal extends Model
     use HasFactory;
 
     protected $fillable = [
+        'slug',
         'name',
         'type',
         'description',
