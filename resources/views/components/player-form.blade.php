@@ -61,7 +61,7 @@ function validateAge(input) {
     }
 }
 
-// List of bad words (you can expand this list)
+// List of bad words
 const badWords = ['fuck', 'sex', 'bitch', 'asshole', 'shit', 'damn'];
 
 // Function to check if the input contains any bad words
