@@ -1,6 +1,6 @@
 <section class="d-flex align-items-center justify-content-center">
     <div class="container p-5 rounded shadow" style="background-color: rgba(255, 255, 255, 0.7);" id="content">
-        <div class=" text-center">
+        <div class="text-center">
             <!-- Title -->
             <h1 class="text-success mb-4 display-4">@yield('title', config('app.name'))</h1>
         </div>
@@ -16,7 +16,7 @@
             <!-- Age Field -->
             <div class="col-md-4">
                 <label for="age" class="form-label">{{ __('messages.age_label') }}</label>
-                <input type="number" class="form-control border-success" id="age" name="age"
+                <input type="number" class="form-control border-success" id="age" name="age" min="8" max="99"
                     placeholder="{{ __('messages.age_placeholder') }}" required maxlength="3">
             </div>
 
@@ -35,6 +35,25 @@
     </div>
 </section>
 
+<!-- Modal for displaying error message -->
+<div class="modal fade" id="badWordsModal" tabindex="-1" aria-labelledby="badWordsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="badWordsModalLabel">{{__('messages.invalid input')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ __('messages.please avoid using inappropriate language in your nickname.') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">{{ __('messages.close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function validateAge(input) {
     if (input.value.length > 3) {
@@ -42,7 +61,14 @@ function validateAge(input) {
     }
 }
 
+// List of bad words (you can expand this list)
+const badWords = ['fuck', 'sex', 'bitch', 'asshole', 'shit', 'damn'];
 
+// Function to check if the input contains any bad words
+function containsBadWords(inputValue) {
+    const normalizedInput = inputValue.toLowerCase();
+    return badWords.some(badWord => normalizedInput.includes(badWord));
+}
 
 // Keyboard layout
 const rows = [
@@ -95,9 +121,7 @@ $('#keyboard').on('click', '.keyboard-key', function(event) {
     }
 });
 
-
-
-// Form submission
+// Form submission handler
 const hostIP = "192.168.0.7";
 const port = 9001;
 
@@ -114,16 +138,22 @@ client.on('connect', function() {
     });
 });
 
-
-
-// Handle form submission for player name
+// Form submission
 document.querySelector('#nameForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const name = document.querySelector('#name').value;
     const age = document.querySelector('#age').value;
 
-    // Send player name to the backend via fetch API
+    // Check if name contains bad words
+    if (containsBadWords(name)) {
+        // Show the modal instead of alert
+        const modal = new bootstrap.Modal(document.getElementById('badWordsModal'));
+        modal.show();
+        return; // Stop the form from being submitted
+    }
+
+    // Proceed with form submission (if no bad words are found)
     fetch("{{ url('api/speler') }}", {
             method: 'POST',
             headers: {
@@ -151,7 +181,6 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
                 const overlay = document.querySelector('#countdown-overlay');
                 overlay.classList.remove('d-none');
                 const jumpText = @json(__('messages.jump!'));
-
 
                 let countdownTime = 3;
                 overlay.textContent = countdownTime;
