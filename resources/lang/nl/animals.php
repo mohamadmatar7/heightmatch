@@ -23,7 +23,7 @@ return [
         'name' => 'Kangoeroe',
         'type' => 'Zoogdier',
         'description' => 'Deze kleine knaagdieren kunnen tot 9 keer hun lichaamslengte springen.',
-        'jump_height' => '100',
+        'jump_height' => '90',
     ],
     'deer' => [
         'name' => 'Hert',

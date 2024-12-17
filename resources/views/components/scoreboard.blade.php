@@ -7,7 +7,11 @@
         <a href="{{ $route }}" class="btn btn-success mb-2">
             {{ $text }}
         </a>
+        <a href="/" class="btn btn-outline-success mb-2 ms-2">
+            {{ __('messages.home') }}
+        </a>
     </div>
+
     <!-- Scoreboard Table -->
     <div class="table-responsive">
         <table class="table table-hover align-middle">

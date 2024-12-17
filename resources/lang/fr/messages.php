@@ -3,9 +3,11 @@
 return [
     'attribute' => 'Attribut',
     'all_time' => 'Tout le temps',
+    'age must be between 8 and 99.' => 'L\'âge doit être compris entre 8 et 99 ans.',
     'today' => 'Aujourd\'hui',
     'height' => 'Hauteur',
     'action' => 'Action',
+    'home' => 'Retour à la page d\'accueil',
     'animals' => 'Animaux',
     'delete' => 'Supprimer',
     'confirm delete' => 'Confirmer la suppression',

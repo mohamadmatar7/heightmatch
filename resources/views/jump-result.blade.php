@@ -3,72 +3,89 @@
     <!-- Content Container -->
     <div class="container py-5 px-4 my-5 rounded shadow-lg"
         style="background-color: rgba(255, 255, 255, 0.85); max-width: 700px;">
-        <!-- Title -->
-        <h1 class="text-center text-success mb-5">{{ config('app.name', 'Animal Insights') }}</h1>
 
+
+
+        <!-- Title -->
+        <h1 class="text-center text-success mb-4">{{ config('app.name', 'Animal Insights') }}</h1>
 
         <!-- User Jump Height -->
-        <div id="user-jump-height" class="text-center mb-4">
+        <div id="user-jump-height" class="text-center mb-3">
             <strong class="fs-4">{{ __('messages.your') }} {{ __('messages.jump height') }}:</strong>
             <div class="badge bg-success fs-4 px-3 py-2" id="jump-height-value">{{ __('messages.loading') }}...</div>
         </div>
 
         <!-- Animal Data Section -->
         <div id="animal-info" class="d-none">
-            <div class="d-flex flex-column gap-3">
-                <!-- Animal Image -->
-                <div class="text-center">
-                    <img src="" alt="Animal Image" id="animal-image" class="img-fluid rounded shadow-sm border"
-                        style="max-height: 300px; object-fit: cover; width: auto;">
-                </div>
-
+            <div class="d-flex flex-column gap-2">
                 <!-- Animal Details -->
                 <div class="text-center">
                     <h5 class="text-success fw-bold" data-animal-name="animal-name"></h5>
-                    <p class="text-muted" id="animal-description"></p>
                 </div>
 
-                <!-- Animal Attributes Table -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr class="table-success">
-                                <th scope="col">{{ __('messages.attribute') }}</th>
-                                <th scope="col">{{ __('messages.value') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>{{ __('messages.name') }}</strong></td>
-                                <td data-animal-name="animal-name"></td>
-                            </tr>
-                            <tr>
-                                <td><strong>{{ __('messages.type') }}</strong></td>
-                                <td id="animal-type"></td>
-                            </tr>
-                            <tr>
-                                <td><strong>{{ __('messages.jump height of') }} <span
-                                            data-animal-name="animal-name"></span></strong>
-                                </td>
-                                <td><span id="animal-jump-height"></span> cm</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="d-flex gap-3 align-items-start">
+                    <!-- Animal Image -->
+                    <div class="image-container flex-grow-1" style="flex: 0 0 40%;">
+                        <img src="" alt="Animal Image" id="animal-image" class="img-fluid rounded shadow-sm border"
+                            style="height: auto; max-height: 300px; object-fit: cover; width: 100%;">
+                    </div>
+
+                    <div class="d-flex flex-column gap-3 flex-grow-1">
+                        <!-- Animal Attributes Table -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="table-success">
+                                        <th scope="col">{{ __('messages.attribute') }}</th>
+                                        <th scope="col">{{ __('messages.value') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>{{ __('messages.name') }}</strong></td>
+                                        <td data-animal-name="animal-name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>{{ __('messages.type') }}</strong></td>
+                                        <td id="animal-type"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>{{ __('messages.jump height of') }} <span
+                                                    data-animal-name="animal-name"></span></strong></td>
+                                        <td><span id="animal-jump-height"></span> cm</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Animal Description -->
+                        <div class="text-center">
+                            <p class="text-muted" id="animal-description"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <!-- Leaderboard Button -->
         <div class="text-center my-4">
             <a href="{{ route('scoreboardToday') }}" class="btn btn-success w-50 fs-4">
                 {{ __('messages.leaderboard') }}
             </a>
         </div>
 
+        <div class="text-center">
+            <a href="/" class="btn btn-outline-success w-50 fs-4">
+                {{ __('messages.home') }}
+            </a>
+        </div>
 
         <!-- Info Message Section -->
-        <div id="message" class="alert alert-danger text-center mt-4 d-none"></div>
+        <div id=" message" class="alert alert-danger text-center mt-4 d-none">
+        </div>
     </div>
 </x-main-layout>
+
+
 
 
 <script>

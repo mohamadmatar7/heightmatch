@@ -2,10 +2,12 @@
 
 return [
     'attribute' => 'Attribute',
+    'age must be between 8 and 99.' => 'Age must be between 8 and 99.',
     'all_time' => 'All Time',
     'height' => 'Height',
     'post' => 'Post',
     'action' => 'Action',
+    'home' => 'Back to Home Page',
     'animals' => 'Animals',
     'delete' => 'Delete',
     'confirm delete' => 'Confirm delete',

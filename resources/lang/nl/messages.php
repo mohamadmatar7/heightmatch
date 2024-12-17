@@ -3,9 +3,11 @@
 return [
     'attribute' => 'Attribuut',
     'all_time' => 'Aller tijden',
+    'age must be between 8 and 99.' => 'Leeftijd moet tussen 8 en 99 zijn.',
     'height' => 'Hoogte',
     'today' => 'Vandaag',
     'action' => 'Actie',
+    'home' => 'Terug naar de startpagina',
     'animals' => 'Dieren',
     'delete' => 'Verwijderen',
     'no animals found' => 'Geen dieren gevonden',

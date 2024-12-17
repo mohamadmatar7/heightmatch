@@ -23,7 +23,7 @@ return [
         'name' => 'Känguru',
         'type' => 'Säugetier',
         'description' => 'Diese kleinen Nagetiere können bis zu neunmal ihre Körperlänge springen.',
-        'jump_height' => '100',
+        'jump_height' => '90',
     ],
     'deer' => [
         'name' => 'Hirsch',

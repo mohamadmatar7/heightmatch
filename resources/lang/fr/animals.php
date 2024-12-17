@@ -23,7 +23,7 @@ return [
         'name' => 'Kangourou',
         'type' => 'Mammifère',
         'description' => 'Ces petits rongeurs peuvent sauter jusqu’à 9 fois leur longueur.',
-        'jump_height' => '100',
+        'jump_height' => '90',
     ],
     'deer' => [
         'name' => 'Cerf',

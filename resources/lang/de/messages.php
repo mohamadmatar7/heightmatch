@@ -5,7 +5,10 @@ return [
     'all_time' => 'All Time',
     'post' => 'Beitrag',
     'delete' => 'Löschen',
+    'home' => 'Zurück zur Startseite',
+
     'animals' => 'Tiere',
+    'age must be between 8 and 99.' => 'Das Alter muss zwischen 8 und 99 liegen.',
     'no animals found' => 'Keine Tiere gefunden',
     'confirm delete' => 'Löschen bestätigen',
     'are you sure you want to delete this animal?' => 'Möchten Sie dieses Tier wirklich löschen?',

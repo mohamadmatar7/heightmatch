@@ -24,7 +24,7 @@ return [
         'name' => 'Kangaroo',
         'type' => 'Mammal',
         'description' => 'These small rodents can jump up to 9 times their body length.',
-        'jump_height' => '100', 
+        'jump_height' => '90', 
     ],
     'deer' => [
         'name' => 'Deer',

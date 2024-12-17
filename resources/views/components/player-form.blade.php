@@ -54,12 +54,29 @@
     </div>
 </div>
 
+<!-- Modal for invalid age -->
+<div class="modal fade" id="invalidAgeModal" tabindex="-1" aria-labelledby="invalidAgeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="invalidAgeModalLabel">{{__('messages.invalid input')}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ __('messages.age must be between 8 and 99.') }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">{{ __('messages.close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-function validateAge(input) {
-    if (input.value.length > 3) {
-        input.value = input.value.slice(0, 3); // Restrict to 3 digits
-    }
-}
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('name').focus();
+});
 
 // List of bad words
 const badWords = ['fuck', 'sex', 'bitch', 'asshole', 'shit', 'damn'];
@@ -98,13 +115,12 @@ $('#name, #age').on('focus', function() {
     activeInput = $(this);
 });
 
-// Handle keyboard interaction with input fields
+// Handle virtual keyboard interaction with input fields
 $('#keyboard').on('click', '.keyboard-key', function(event) {
     event.preventDefault(); // Prevent form submission or other default behavior when clicking on a key
 
     const key = $(this).data('key');
 
-    // Check if there is an active input field
     if (activeInput) {
         let currentText = activeInput.val();
 
@@ -121,39 +137,48 @@ $('#keyboard').on('click', '.keyboard-key', function(event) {
     }
 });
 
-// Form submission handler
-const hostIP = "192.168.0.7";
-const port = 9001;
+// Prevent Enter key from adding a number to the 'age' field but allow form submission
+document.querySelector('#nameForm').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
 
-// Connect to the MQTT server
-var client = mqtt.connect('ws://' + hostIP + ':' + port);
+        const activeElement = document.activeElement;
 
-// On successful connection, subscribe to topics
-client.on('connect', function() {
-    console.log("Connected to MQTT broker");
-    client.subscribe('startsensor', function(err) {
-        if (!err) {
-            console.log("Subscribed to startsensor");
+        // Check if the active element is the 'age' input
+        if (activeElement && activeElement.id === 'age') {
+            // Trigger form submission but don't modify the input
+            this.dispatchEvent(new Event('submit', {
+                cancelable: true
+            }));
         }
-    });
+    }
 });
 
-// Form submission
+// Form submission handler
 document.querySelector('#nameForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const name = document.querySelector('#name').value;
-    const age = document.querySelector('#age').value;
+    const ageField = document.querySelector('#age');
+    const age = parseInt(ageField.value, 10);
 
     // Check if name contains bad words
     if (containsBadWords(name)) {
-        // Show the modal instead of alert
         const modal = new bootstrap.Modal(document.getElementById('badWordsModal'));
         modal.show();
         return; // Stop the form from being submitted
     }
 
-    // Proceed with form submission (if no bad words are found)
+    // Validate the age
+    const minAge = parseInt(ageField.getAttribute('min'), 10);
+    const maxAge = parseInt(ageField.getAttribute('max'), 10);
+    if (isNaN(age) || age < minAge || age > maxAge) {
+        const invalidAgeModal = new bootstrap.Modal(document.getElementById('invalidAgeModal'));
+        invalidAgeModal.show();
+        return; // Stop the form from being submitted
+    }
+
+    // Submit the data to the server
     fetch("{{ url('api/speler') }}", {
             method: 'POST',
             headers: {
@@ -161,46 +186,15 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
-                name: name,
-                age: age,
+                name,
+                age,
                 jump: 0
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log(data);
-                client.publish('startsensor', 'start');
-                console.log("Published 'start' to 'startsensor'");
-
-                // Hide the form
-                const content = document.querySelector('#content');
-                content.classList.add('d-none');
-
-                // Show the countdown overlay
-                const overlay = document.querySelector('#countdown-overlay');
-                overlay.classList.remove('d-none');
-                const jumpText = @json(__('messages.jump!'));
-
-                let countdownTime = 3;
-                overlay.textContent = countdownTime;
-
-                const countdownInterval = setInterval(() => {
-                    countdownTime--;
-
-                    if (countdownTime > 0) {
-                        overlay.textContent = countdownTime;
-                    } else {
-                        clearInterval(countdownInterval);
-                        overlay.textContent = jumpText;
-
-                        setTimeout(() => {
-                            // Redirect after "Jump!" is displayed
-                            window.location.href =
-                                `/result?player_id=${data.player.id}`;
-                        }, 3500);
-                    }
-                }, 1250);
+                handleGameStart(data);
             } else {
                 alert("Failed to save player.");
             }
@@ -209,5 +203,54 @@ document.querySelector('#nameForm').addEventListener('submit', function(e) {
             console.error('Error:', error);
             alert("There was an error saving the player.");
         });
+});
+
+// Helper: Handle the game start logic
+function handleGameStart(data) {
+    client.publish('startsensor', 'start');
+    console.log("Published 'start' to 'startsensor'");
+
+    // Hide the form
+    const content = document.querySelector('#content');
+    content.classList.add('d-none');
+
+    // Show the countdown overlay
+    const overlay = document.querySelector('#countdown-overlay');
+    overlay.classList.remove('d-none');
+    const jumpText = @json(__('messages.jump!'));
+
+    let countdownTime = 3;
+    overlay.textContent = countdownTime;
+
+    const countdownInterval = setInterval(() => {
+        countdownTime--;
+
+        if (countdownTime > 0) {
+            overlay.textContent = countdownTime;
+        } else {
+            clearInterval(countdownInterval);
+            overlay.textContent = jumpText;
+
+            setTimeout(() => {
+                // Redirect after "Jump!" is displayed
+                window.location.href = `/result?player_id=${data.player.id}`;
+            }, 3200);
+        }
+    }, 1250);
+}
+
+// Connect to the MQTT server
+const hostIP = "192.168.0.7";
+const port = 9001;
+
+var client = mqtt.connect('ws://' + hostIP + ':' + port);
+
+client.on('connect', function() {
+    console.log("Connected to MQTT broker");
+    client.subscribe('startsensor', function(err) {
+        if (!err) {
+            console.log("Subscribed to startsensor");
+        }
+    });
 });
 </script>
