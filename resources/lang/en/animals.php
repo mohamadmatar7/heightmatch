@@ -8,7 +8,7 @@ return [
         'description' => 'Foxes use their tails to keep balance when jumping.',
         'jump_height' => '130', 
     ],
-    'Hare' => [
+    'hare' => [
         'name' => 'Hare',
         'type' => 'Mammal',
         'description' => 'Hares often jump to escape from predators.',
@@ -67,5 +67,53 @@ return [
         'type' => 'Mammal',
         'description' => 'Guinea pigs make playful “popcorn” jumps at enthusiasm.',
         'jump_height' => '10',
+    ],
+    'rabbit' => [
+        'name' => 'Rabbit',
+        'type' => 'Mammal',
+        'description' => 'Rabbits can rotate their ears 180 degrees to detect predators.',
+        'jump_height' => '70',
+    ],
+    'grasshopper' => [
+        'name' => 'Grasshopper',
+        'type' => 'Insect',
+        'description' => 'Grasshoppers can jump 20 times their body length.',
+        'jump_height' => '30',
+    ],
+    'springbok' => [
+        'name' => 'Springbok',
+        'type' => 'Mammal',
+        'description' => 'Springboks perform a unique jumping display called pronking.',
+        'jump_height' => '80',
+    ],
+    'lemur' => [
+        'name' => 'Lemur',
+        'type' => 'Mammal',
+        'description' => 'Lemurs use their long tails for balance when jumping.',
+        'jump_height' => '50',
+    ],
+    'rockhopper' => [
+        'name' => 'Rockhopper',
+        'type' => 'Bird',
+        'description' => 'Rockhopper penguins can hop across rocks and cliffs with ease.',
+        'jump_height' => '20',
+    ],
+    'ibex' => [
+        'name' => 'Ibex',
+        'type' => 'Mammal',
+        'description' => 'Ibexes are skilled climbers, often scaling steep cliffs.',
+        'jump_height' => '75',
+    ],
+    'chinchilla' => [
+        'name' => 'Chinchilla',
+        'type' => 'Mammal',
+        'description' => 'Chinchillas take dust baths to keep their fur clean.',
+        'jump_height' => '40',
+    ],
+    'pronghorn' => [
+        'name' => 'Pronghorn',
+        'type' => 'Mammal',
+        'description' => 'Pronghorns are the second-fastest land animals.',
+        'jump_height' => '60',
     ],
 ];
